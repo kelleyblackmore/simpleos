@@ -38,7 +38,7 @@ systemd = false
 [user]
 default = root
 EOF
-
+    sudo chown -R $(id -u):$(id -g) "${ROOT_DIR}"
     # Ensure our custom profile doesn't get overwritten
     mv "${ROOT_DIR}/etc/profile" "${ROOT_DIR}/etc/profile.orig"
     
