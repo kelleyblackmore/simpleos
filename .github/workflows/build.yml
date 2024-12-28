@@ -28,7 +28,7 @@ jobs:
     - name: Build SimpleOS
       run: |
         chmod +x build.sh
-        ./build.sh
+        sudo ./build.sh
 
     - name: Upload distribution archive
       uses: actions/upload-artifact@v3
