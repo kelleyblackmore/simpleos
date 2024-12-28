@@ -5,7 +5,7 @@
 apply_stig() {
     local ROOT_DIR="$1"
     echo "Applying STIG controls to ${ROOT_DIR}..."
-
+    sudo su -
     # Create ALL necessary directories first
     mkdir -p "${ROOT_DIR}/etc/security/limits.d"
     mkdir -p "${ROOT_DIR}/etc/ssh"
