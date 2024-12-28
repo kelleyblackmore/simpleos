@@ -1,6 +1,9 @@
 # SimpleOS
+[![Build SimpleOS](https://github.com/kelleyblackmore/simpleos/actions/workflows/build.yml/badge.svg)](https://github.com/kelleyblackmore/simpleos/actions/workflows/build.yml)
+
 
 A minimal CLI-focused WSL distribution.
+
 
 ## Building
 
