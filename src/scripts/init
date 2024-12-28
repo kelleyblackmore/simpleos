@@ -1,0 +1,28 @@
+#!/bin/sh
+# SimpleOS initialization script
+
+# Mount virtual filesystems
+mount_filesystems() {
+    mount -t proc none /proc
+    mount -t sysfs none /sys
+    mount -t tmpfs none /tmp
+    mount -t tmpfs none /run
+}
+
+# Initialize system
+init_system() {
+    # Set hostname
+    echo "simpleos" > /etc/hostname
+    
+    # Set up environment
+    source /etc/profile
+    
+    # Additional initialization tasks can be added here
+}
+
+# Main initialization
+mount_filesystems
+init_system
+
+# Start shell
+exec /bin/bash

@@ -1,0 +1,18 @@
+# SimpleOS environment configuration
+
+# Set up PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Custom prompt
+export PS1='\[\033[01;32m\]simpleos\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# Aliases
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ls -la'
+alias ..='cd ..'
+alias simplepkg='sudo simplepkg'
+
+# Environment variables
+export EDITOR=nano
+export TERM=xterm-256color
