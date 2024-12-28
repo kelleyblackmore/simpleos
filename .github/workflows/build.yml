@@ -10,17 +10,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Explicitly specify ubuntu-24.04 instead of latest
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4  # Updated from v2
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
+      uses: docker/setup-qemu-action@v3  # Updated to latest version
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v3  # Updated to latest version
 
     - name: Install dependencies
       run: sudo apt-get update && sudo apt-get install -y debootstrap
@@ -31,7 +32,8 @@ jobs:
         sudo ./build.sh
 
     - name: Upload distribution archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # Updated to v4
       with:
         name: simpleos-distribution
         path: dist/simpleos-*.tar.gz
+        retention-days: 90  # Optional: specify how long to keep the artifact

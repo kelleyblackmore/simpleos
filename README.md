@@ -4,14 +4,27 @@
 
 A minimal CLI-focused WSL distribution.
 
+## Usage
+1. Download the latest working distro from the build action, option at the bottom of the build
+2. Unzip the download
+3. Then import
+   ```bash
+   wsl --import SimpleOS C:\\SimpleOS simpleos-0.1.0.tar.gz
+   ```
+4. Run the distro
+   ```bash
+   wsl -d SimpleOS
+   ```
+
 
 ## Building
 
 1. Run `./build.sh` to create the distribution
 2. Import into WSL:
    ```bash
-   wsl --import SimpleOS C:\\SimpleOS dist/simpleos-0.1.0.tar.gz
+   wsl --import SimpleOS C:\\SimpleOS simpleos-0.1.0.tar.gz
    ```
+
 
 ## Features
 
