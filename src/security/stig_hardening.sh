@@ -5,17 +5,17 @@
 apply_stig() {
     local ROOT_DIR="$1"
     echo "Applying STIG controls to ${ROOT_DIR}..."
-    sudo su -
-    # Create ALL necessary directories first
-    mkdir -p "${ROOT_DIR}/etc/security/limits.d"
-    mkdir -p "${ROOT_DIR}/etc/ssh"
-    mkdir -p "${ROOT_DIR}/etc/audit/rules.d"
-    mkdir -p "${ROOT_DIR}/etc/sysctl.d" 
-    mkdir -p "${ROOT_DIR}/var/log"
-    mkdir -p "${ROOT_DIR}/etc/profile.d"
+
+    # Create necessary directories with sudo
+    sudo mkdir -p "${ROOT_DIR}/etc/security/limits.d"
+    sudo mkdir -p "${ROOT_DIR}/etc/ssh"
+    sudo mkdir -p "${ROOT_DIR}/etc/audit/rules.d"
+    sudo mkdir -p "${ROOT_DIR}/etc/sysctl.d"
+    sudo mkdir -p "${ROOT_DIR}/var/log"
+    sudo mkdir -p "${ROOT_DIR}/etc/profile.d"
 
     # Password and Authentication Controls
-    cat > "${ROOT_DIR}/etc/security/pwquality.conf" << EOF
+    sudo tee "${ROOT_DIR}/etc/security/pwquality.conf" > /dev/null << EOF
 minlen = 15
 dcredit = -1
 ucredit = -1
@@ -26,7 +26,7 @@ maxrepeat = 3
 EOF
 
     # System Access Controls
-    cat > "${ROOT_DIR}/etc/security/limits.conf" << EOF
+    sudo tee "${ROOT_DIR}/etc/security/limits.conf" > /dev/null << EOF
 * hard core 0
 * hard maxlogins 10
 * soft nofile 1024
@@ -34,7 +34,7 @@ EOF
 EOF
 
     # Audit Policy
-    cat > "${ROOT_DIR}/etc/audit/rules.d/audit.rules" << EOF
+    sudo tee "${ROOT_DIR}/etc/audit/rules.d/audit.rules" > /dev/null << EOF
 # Delete all existing rules
 -D
 
@@ -58,7 +58,7 @@ EOF
 EOF
 
     # Secure SSH Configuration
-    cat > "${ROOT_DIR}/etc/ssh/sshd_config" << EOF
+    sudo tee "${ROOT_DIR}/etc/ssh/sshd_config" > /dev/null << EOF
 Protocol 2
 PermitRootLogin no
 MaxAuthTries 3
@@ -76,7 +76,7 @@ AllowAgentForwarding no
 EOF
 
     # System Security Configuration
-    cat > "${ROOT_DIR}/etc/sysctl.d/99-security.conf" << EOF
+    sudo tee "${ROOT_DIR}/etc/sysctl.d/99-security.conf" > /dev/null << EOF
 # IP Hardening
 net.ipv4.conf.all.accept_redirects = 0
 net.ipv4.conf.default.accept_redirects = 0
@@ -95,15 +95,15 @@ kernel.dmesg_restrict = 1
 EOF
 
     # File Permissions
-    chmod 644 "${ROOT_DIR}/etc/passwd"
-    chmod 644 "${ROOT_DIR}/etc/group"
-    chmod 600 "${ROOT_DIR}/etc/shadow"
-    chmod 600 "${ROOT_DIR}/etc/ssh/sshd_config"
-    chmod 600 "${ROOT_DIR}/etc/security/pwquality.conf"
-    chmod 644 "${ROOT_DIR}/etc/sysctl.d/99-security.conf"
+    sudo chmod 644 "${ROOT_DIR}/etc/passwd"
+    sudo chmod 644 "${ROOT_DIR}/etc/group"
+    sudo chmod 600 "${ROOT_DIR}/etc/shadow"
+    sudo chmod 600 "${ROOT_DIR}/etc/ssh/sshd_config"
+    sudo chmod 600 "${ROOT_DIR}/etc/security/pwquality.conf"
+    sudo chmod 644 "${ROOT_DIR}/etc/sysctl.d/99-security.conf"
     
     # Create secure MOTD
-    cat > "${ROOT_DIR}/etc/motd" << EOF
+    sudo tee "${ROOT_DIR}/etc/motd" > /dev/null << EOF
 *******************************************************************
 *                        NOTICE TO USERS                           *
 *                    Security Information                          *
@@ -112,12 +112,10 @@ EOF
 EOF
 
     # Add to build script hooks
-    echo "Running system hardening..." >> "${ROOT_DIR}/etc/profile.d/security.sh"
-    chmod 755 "${ROOT_DIR}/etc/profile.d/security.sh"
+    sudo tee "${ROOT_DIR}/etc/profile.d/security.sh" > /dev/null << EOF
+# Running system hardening...
+EOF
+    sudo chmod 755 "${ROOT_DIR}/etc/profile.d/security.sh"
 
     echo "STIG controls applied successfully"
 }
-
-# Usage in build script
-# source stig_hardening.sh
-# apply_stig "${BUILD_DIR}"
