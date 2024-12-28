@@ -15,6 +15,10 @@ A minimal CLI-focused WSL distribution.
    ```bash
    wsl -d SimpleOS
    ```
+5. If you need to unregister just run 
+   ```bash
+   wsl --unregister SimpleOS
+   ```
 
 
 ## Building
