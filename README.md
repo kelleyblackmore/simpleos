@@ -50,4 +50,3 @@ simpleos/
 ## License
 
 MIT License
-```
